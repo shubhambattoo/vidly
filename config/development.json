@@ -1,6 +1,0 @@
-{
-    "name" : "my development express app",
-    "mail" : {
-        "host" : "dev-mail-server"
-    }
-}
