@@ -33,6 +33,8 @@ router.post('/', async (req, res) => {
 
 });
 
+
+
 /**
  * Validates the user object sent to API
  * @param user object of the user 

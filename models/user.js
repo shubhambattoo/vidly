@@ -22,6 +22,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 5,
     maxlength: 1024
+  },
+  isAdmin : {
+    type : Boolean
   }
 })
 
@@ -31,7 +34,8 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAuthToken = function () {
   const user = this;
   const token = jwt.sign({
-    _id: user._id
+    _id: user._id,
+    isAdmin : this.isAdmin
   }, process.env.jwtPrivateKey)
   return token;
 }
