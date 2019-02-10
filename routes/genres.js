@@ -6,16 +6,13 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-router.get('/', asyncMiddleware(async (req, res, next) => {
-  try {
-    const genres = await Genre.find().sort({ name : 1 })
-    res.send(genres)
-  } catch (error) {
-    next(error);
-  }
-}));
+router.get('/', async (req, res) => {
+  throw new Error('Could not find genres');
+  const genres = await Genre.find().sort({ name : 1 })
+  res.send(genres)
+});
 
-router.post('/', auth, asyncMiddleware(async (req, res) => {
+router.post('/', auth, async (req, res) => {
 
   const { error } = validateGenre(req.body);
 
@@ -25,7 +22,7 @@ router.post('/', auth, asyncMiddleware(async (req, res) => {
   genre = await genre.save();
 
   res.send(genre);
-}));
+});
 
 router.put('/:id', async (req, res) => {
 
