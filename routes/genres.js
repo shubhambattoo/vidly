@@ -1,7 +1,8 @@
+const auth = require('../middlewares/auth');
 const {Genre, validateGenre} = require('../models/genre');
 const express = require('express');
 const router = express.Router();
-
+const mongoose = require('mongoose');
 
 router.get('/', async (req, res) => {
   try {
@@ -12,7 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
 
   const { error } = validateGenre(req.body)
 
