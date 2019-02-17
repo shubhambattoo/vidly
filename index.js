@@ -1,5 +1,6 @@
 require('express-async-errors');
 const winston = require('winston');
+require('winston-mongodb');
 const config = require('config');
 const error = require('./middlewares/error');
 const Joi = require('joi');
@@ -15,6 +16,7 @@ const express = require('express');
 const app = express();
 
 winston.add(new winston.transports.File({filename : 'logfile.log'}))
+winston.add(new winston.transports.MongoDB({db : 'mongodb://localhost/vidly'}));
 
 if (!process.env.jwtPrivateKey) {
   console.error('Fatal Error : JWT pvt key not defined');
