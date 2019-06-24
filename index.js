@@ -1,7 +1,7 @@
 require('express-async-errors');
 const winston = require('winston');
 require('winston-mongodb');
-const config = require('config');
+require('dotenv').config();
 const error = require('./middlewares/error');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi)
@@ -23,12 +23,14 @@ if (!process.env.jwtPrivateKey) {
   process.exit(1)
 }
 
-// console.log(process.env.jwtPrivateKey)
-
-mongoose.connect('mongodb://localhost/vidly', {
-    useNewUrlParser: true
+console.log(process.env.jwtPrivateKey);
+const db = process.env.NODE_ENV === 'test' ? `${process.env.DB_URI}${process.env.DB_test}` : `${process.env.DB_URI}${process.env.DB}`;
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.connect(db,  {
+  useNewUrlParser: true
   })
-  .then(() => console.log('connected to vidly db...'))
+  .then(() => console.log('connected to vidly db ...' + process.env.NODE_ENV))
   .catch((err) => console.log('error in connection', err));
 
 app.use(express.json());
