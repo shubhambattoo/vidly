@@ -7,7 +7,6 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 router.get('/', async (req, res) => {
-  throw new Error('Could not find genres');
   const genres = await Genre.find().sort({ name : 1 })
   res.send(genres)
 });

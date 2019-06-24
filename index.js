@@ -23,14 +23,14 @@ if (!process.env.jwtPrivateKey) {
   process.exit(1)
 }
 
-console.log(process.env.jwtPrivateKey);
+// console.log(process.env.jwtPrivateKey);
 const db = process.env.NODE_ENV === 'test' ? `${process.env.DB_URI}${process.env.DB_test}` : `${process.env.DB_URI}${process.env.DB}`;
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.connect(db,  {
-  useNewUrlParser: true
+    useNewUrlParser: true
   })
-  .then(() => console.log('connected to vidly db ...' + process.env.NODE_ENV))
+  .then(() => console.log('connected to ' + db))
   .catch((err) => console.log('error in connection', err));
 
 app.use(express.json());
@@ -44,5 +44,7 @@ app.use('/api/auth', auth);
 app.use(error)
 
 const port = process.env.PORT || 5000;
-app.listen(port)
-console.log(`Server started on ${port}`)
+const server = app.listen(port)
+console.log(`Server started on ${port}`);
+
+module.exports = server;
