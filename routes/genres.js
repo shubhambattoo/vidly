@@ -6,6 +6,8 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
+const validateObjectid = require("./../middlewares/validateObjectid");
+
 router.get('/', async (req, res) => {
   const genres = await Genre.find().sort({ name : 1 })
   res.send(genres)
@@ -45,7 +47,7 @@ router.delete('/:id', [auth, isAdmin], async (req, res) => {
   res.send(genre)
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateObjectid, async (req, res) => {
 
   const genre = await Genre.findById(req.params.id);
 
